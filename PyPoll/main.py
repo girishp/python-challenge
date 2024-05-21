@@ -1,4 +1,5 @@
 import csv
+from collections import Counter
 
 votes = {}
 total_votes = 0
@@ -6,14 +7,9 @@ total_votes = 0
 with open("./PyPoll/Resources/election_data.csv", mode="r") as file:
     csv_reader = csv.DictReader(file)
 
-    for row in csv_reader:
-        total_votes = total_votes + 1
-        candidate = row['Candidate']
-        if(candidate in votes):
-            votes[candidate] += 1
-        else:
-            votes[candidate] = 1
-
+    candidate_selections = [row['Candidate'] for row in csv_reader]
+    total_votes = len(candidate_selections)
+    votes = Counter(candidate_selections)
 
 with open("./PyPoll/analysis/results.txt", "w") as file:
     line = f"Election Results"
